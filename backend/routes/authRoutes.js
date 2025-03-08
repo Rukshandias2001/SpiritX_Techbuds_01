@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import { signup, login, getMe } from '../controllers/authController.js';
+import { protect } from '../middleware/authMiddleware.js';
+import { check } from 'express-validator';
+
 const router = express.Router();
-const { signup, login, getMe } = require('../controllers/authController');
-const { protect } = require('../middleware/authMiddleware');
-const { check } = require('express-validator');
 
 // Input validation rules
 const signupValidation = [
@@ -37,4 +38,4 @@ router.post('/signup', signupValidation, signup);
 router.post('/login', loginValidation, login);
 router.get('/me', protect, getMe);
 
-module.exports = router;
+export default router;

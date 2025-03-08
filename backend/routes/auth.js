@@ -5,16 +5,27 @@ import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.post('/signup', [
-  check('username', 'Username is required').not().isEmpty(),
-  check('password', 'Password is required').not().isEmpty()
-], signup);
+// Register user
+router.post(
+  '/signup',
+  [
+    check('username', 'Username is required').not().isEmpty(),
+    check('password', 'Please enter a password with 6 or more characters').isLength({ min: 6 })
+  ],
+  signup
+);
 
-router.post('/login', [
-  check('username', 'Username is required').not().isEmpty(),
-  check('password', 'Password is required').not().isEmpty()
-], login);
+// Login user
+router.post(
+  '/login',
+  [
+    check('username', 'Username is required').not().isEmpty(),
+    check('password', 'Password is required').exists()
+  ],
+  login
+);
 
+// Get current user
 router.get('/me', protect, getMe);
 
 export default router;
