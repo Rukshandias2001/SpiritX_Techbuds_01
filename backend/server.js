@@ -31,38 +31,6 @@ app.use(cors());
 // Mount routers
 app.use('/api/auth', authRoutes);
 
-app.post('/register', asyncHandler(async (req, res, next) => {
-  const { username, email, password } = req.body;
-  
-  // Validate input
-  if (!username || !email || !password) {
-    return next(new ErrorResponse('Please provide all required fields', 400));
-  }
-  
-  // Check if user already exists
-  const userExists = await User.findOne({ $or: [{ email }, { username }] });
-  if (userExists) {
-    return next(new ErrorResponse('User already exists with that email or username', 400));
-  }
-  
-  // Create new user with password hashing handled by pre-save hook
-  const user = await User.create({
-    username,
-    email,
-    password
-  });
-  
-  res.status(201).json({
-    success: true,
-    message: 'User registered successfully',
-    data: {
-      id: user._id,
-      username: user.username,
-      email: user.email
-    }
-  });
-}));
-
 // 404 Route
 app.use('*', (req, res, next) => {
   next(new ErrorResponse(`Not found - ${req.originalUrl}`, 404));
