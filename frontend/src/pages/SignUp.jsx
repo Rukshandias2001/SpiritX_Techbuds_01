@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios"; // Add axios import
 import "../styles/SignUp.css";
 
 export default function SignUp() {
@@ -102,14 +103,28 @@ export default function SignUp() {
       return;
     }
 
-    // Simulate successful signup
+    // Set loading state if needed
     setErrors({ ...errors, authError: "" });
-    alert("Signup successful! Redirecting to login page...");
-
-    // Redirect to login page after 2 seconds
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
+    
+    // Make POST request to signup endpoint
+    axios.post('http://localhost:5000/api/auth/signup', {
+      username: formData.userName,
+      password: formData.currentPassword
+    })
+    .then(response => {
+      // Handle successful signup
+      alert("Signup successful! Redirecting to login page...");
+      
+      // Redirect to login page after successful signup
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    })
+    .catch(error => {
+      // Handle signup error
+      const errorMessage = error.response?.data?.message || "Signup failed. Please try again.";
+      setErrors({ ...errors, authError: errorMessage });
+    });
   };
 
   return (

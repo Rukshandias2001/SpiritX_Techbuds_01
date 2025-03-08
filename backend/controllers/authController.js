@@ -12,7 +12,7 @@ export const signup = async (req, res) => {
       return res.status(400).json({ success: false, errors: errors.array() });
     }
 
-    const { username, email, password } = req.body;
+    const { username, password } = req.body;
 
     // Check if user already exists
     const userExists = await User.findOne({ username });
@@ -24,21 +24,11 @@ export const signup = async (req, res) => {
       });
     }
 
-    // Check if email already exists
-    const emailExists = await User.findOne({ email });
-    if (emailExists) {
-      return res.status(400).json({
-        success: false,
-        error: 'Email already in use'
-      });
-    }
-
     // Create user with more explicit error handling
     let user;
     try {
       user = await User.create({
         username,
-        email,
         password
       });
       

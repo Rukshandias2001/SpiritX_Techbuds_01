@@ -6,26 +6,18 @@ const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: [true, 'Please provide a username'],
-    minlength: [8, 'Username must be at least 8 characters long'],
-    unique: true,
-    trim: true,
-  },
-  email: {
-    type: String,
-    required: [true, 'Please provide an email'],
-    unique: true,
-    trim: true,
+    unique: true
   },
   password: {
     type: String,
     required: [true, 'Please provide a password'],
-    minlength: 8,
-    select: false, // Don't return password in queries by default
+    minlength: 6,
+    select: false
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 });
 
 // Encrypt password using bcrypt
@@ -41,7 +33,7 @@ UserSchema.pre('save', async function(next) {
 // Sign JWT and return
 UserSchema.methods.getSignedJwtToken = function() {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE,
+    expiresIn: process.env.JWT_EXPIRE
   });
 };
 
