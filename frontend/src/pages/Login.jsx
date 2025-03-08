@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios"; // Import axios
 import "../styles/Login.css"; // Reuse or create a new CSS file
 
 export default function Login() {
@@ -71,28 +72,31 @@ export default function Login() {
 
     
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      // Using axios instead of fetch
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",  // Update with your backend URL
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      const data = await response.json();
+      // Axios automatically parses JSON, no need to call .json()
+      const data = response.data;
 
-      if (response.ok) {
+      // Axios considers status codes outside 2xx as errors, so we can just handle success directly
+      localStorage.setItem("username", formData.username);
+      localStorage.setItem("token", data.token); // Store JWT token if returned
+      localStorage.setItem("isLoggedIn", true);
         
-        localStorage.setItem("username", formData.username);
-        localStorage.setItem("isLoggedIn", true);
-
-        
-        navigate("/WelcomePage");
-      } else {
-        setErrors({ ...errors, authError: data.message || "Login failed" });
-      }
+      navigate("/WelcomePage");
+      
     } catch (error) {
-      setErrors({ ...errors, authError: "An error occurred. Please try again." });
+      // Handle error from axios
+      const errorMessage = error.response?.data?.message || "Login failed. Please check your credentials.";
+      setErrors({ ...errors, authError: errorMessage });
     }
   };
 
