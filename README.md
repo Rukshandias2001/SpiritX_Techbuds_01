@@ -13,7 +13,7 @@
 ### Steps to Run
 1. **Clone the Repository:**
    ```sh
-   git clone https://github.com/your-repo/login-system.git
+   git clone https://github.com/your-repo/login-system.git](https://github.com/Rukshandias2001/SpiritX_Techbuds_01.git)
    cd login-system
    ```
 
@@ -42,7 +42,7 @@
      ```
    - Start the React app:
      ```sh
-     npm start
+     npm run dev
      ```
 
 4. Open `http://localhost:3000` in your browser to test the login system.
