@@ -4,13 +4,23 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: linear-gradient(135deg, #6a11cb, #2575fc); /* Gradient background */
   font-family: "Poppins", sans-serif;
   overflow: hidden;
   position: relative;
 }
 
-/* Background Animation */
+/* Background Video */
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+
 .welcome-container::before {
   content: "";
   position: absolute;
@@ -39,13 +49,19 @@
 /* Welcome Content */
 .welcome-content {
   text-align: center;
-  background: rgba(255, 255, 255, 0.1); /* Glassmorphism effect */
+  background: rgba(4, 9, 72, 0.1); /* Glassmorphism effect */
   padding: 40px;
   border-radius: 20px;
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   z-index: 1;
+ height: 400px;
+ width: 600px;
+ display: flex;
+ justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 /* Welcome Title */
@@ -63,23 +79,81 @@
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 32px;
 }
-
-/* Logout Button */
+/* ✅ Futuristic Logout Button */
 .logout-button {
-  padding: 12px 24px;
-  background: #ffffff;
-  color: #6a11cb;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  width: 150px;
+  padding: 12px;
+  font-size: 1rem;
   font-weight: bold;
+  text-transform: uppercase;
+  border: 2px solid #ff3333; /* Neon red border */
+  background: transparent;
+  color: #ff3333; /* Neon red text */
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s ease-in-out;
+}
+
+/* ✅ Glowing Effect */
+.logout-button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, rgba(255, 51, 51, 0.3), transparent);
+  transition: 0.4s ease-in-out;
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+}
+
+/* ✅ Button Hover Effect */
+.logout-button:hover::before {
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .logout-button:hover {
-  background: #f0f0f0;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  background: #ff3333; 
+  color: black; /* Text turns black */
+  box-shadow: 0 0 10px rgba(255, 51, 51, 0.8), 0 0 20px rgba(255, 51, 51, 0.6);
+  transform: translateY(-3px);
+}
+
+
+.logout-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 5px rgba(255, 51, 51, 0.8);
+}
+
+
+.access-granted {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 255, 0, 0.2); /* Green glow effect */
+  color: #0f0; /* Neon green text */
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: 2px solid #0f0;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  animation: fadeInGlitch 1.5s ease-in-out, glitchEffect 1s infinite alternate;
+}
+
+
+@keyframes fadeInGlitch {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+
+@keyframes glitchEffect {
+  0% { text-shadow: 2px 2px 5px rgba(0, 255, 0, 0.8); }
+  100% { text-shadow: -2px -2px 5px rgba(0, 255, 0, 0.5); }
 }

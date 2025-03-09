@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"; // Add axios import
 import "../styles/SignUp.css";
+import BackgroundVideo1 from "../assets/bg7.mp4";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ export default function SignUp() {
     confirmPassword: "",
     authError: "",
   });
+  const [hasError, setHasError] = useState(false); 
 
   const [passwordStrength, setPasswordStrength] = useState("");
 
@@ -27,6 +29,8 @@ export default function SignUp() {
     if (name === "userName") validateUserName(value);
     if (name === "currentPassword") validateCurrentPassword(value);
     if (name === "confirmPassword") validateConfirmPassword(value);
+
+    checkForErrors();
   };
 
   const validateUserName = (userName) => {
@@ -77,6 +81,11 @@ export default function SignUp() {
     }
     setErrors({ ...errors, confirmPassword: error });
   };
+  const checkForErrors = () => {
+    setHasError(
+      !!(errors.userName || errors.currentPassword || errors.confirmPassword || errors.authError)
+    );
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -103,19 +112,19 @@ export default function SignUp() {
       return;
     }
 
-    // Set loading state if needed
+    
     setErrors({ ...errors, authError: "" });
     
-    // Make POST request to signup endpoint
-    axios.post('http://localhost:5000/api/auth/signup', {
-      username: formData.userName,
-      password: formData.currentPassword
+    
+    axios.post("http://localhost:5001/api/auth/signup", {
+      username: formData.userName.trim(),
+      password: formData.currentPassword.trim()
     })
     .then(response => {
-      // Handle successful signup
+     
       alert("Signup successful! Redirecting to login page...");
       
-      // Redirect to login page after successful signup
+     
       setTimeout(() => {
         navigate("/login");
       }, 2000);
@@ -129,6 +138,18 @@ export default function SignUp() {
 
   return (
     <div className="signUp">
+        <video autoPlay loop muted className="background-video-1">
+              <source src={BackgroundVideo1} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+
+       
+      <div className={`security-header ${hasError ? "error-mode" : ""}`}>
+        {hasError ? "⚠️ ERROR DETECTED - ACCESS RESTRICTED" : "🔒 ENCRYPTED ACCESS REQUIRED"}
+      </div>
+
+      <div className="blinking-alert">MONITORING LOGIN ATTEMPTS...</div>
+
       <div className="signUp-container">
         <div className="signUp-form">
           <h1>Sign Up</h1>

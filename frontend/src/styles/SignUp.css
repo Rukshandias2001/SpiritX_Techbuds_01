@@ -1,34 +1,32 @@
-/* body {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-.signUp-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #d13c3c;
-    margin: 0;
-    padding: 0;
-
-} */
- /* SignUp.css */
-
 /* General Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-/* SignUp.css */
-.signUp {
+
+
+.background-video-1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1; /* Ensure the video stays behind the content */
+}
+
+/* SignUp Container */
+.signUp{
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #ff6f61, #ffcc5c);
+  width: 100%;
+  position: relative; /* Ensure the content stays above the video */
   font-family: 'Poppins', sans-serif;
+  flex-direction: column;
+ 
 }
 
 .signUp-container {
@@ -141,4 +139,58 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+/* 🔒 Cybersecurity Header */
+.security-header {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #0f0; /* Default Green hacker text */
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  z-index: 10;
+  border: 1px solid #0f0;
+  transition: all 0.5s ease-in-out;
+}
+
+
+.security-header.error-mode {
+  background: rgba(255, 0, 0, 0.8); 
+  color: #fff;
+  border: 1px solid #ff0000;
+  animation: blinkError 1s infinite alternate;
+}
+
+.security-header.error-mode::before {
+  content: '🔴';
+  margin-right: 5px;
+}
+@keyframes blinkError {
+  0% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+.blinking-alert {
+  position: fixed;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1rem;
+  color: red;
+  font-weight: bold;
+  text-transform: uppercase;
+  animation: blink 0.8s infinite alternate;
+  z-index: 10;
+}
+
+/* Blinking Animation */
+@keyframes blink {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
 }

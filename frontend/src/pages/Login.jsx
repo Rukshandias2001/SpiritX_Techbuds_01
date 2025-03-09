@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"; // Import axios
 import "../styles/Login.css"; // Reuse or create a new CSS file
+import BackgroundVideo from "../assets/bg8.mp4";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ export default function Login() {
     try {
       // Using axios instead of fetch
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",  // Update with your backend URL
+        "http://localhost:5001/api/auth/login",  // Update with your backend URL
         formData,
         {
           headers: {
@@ -102,7 +103,14 @@ export default function Login() {
 
   return (
     <div className="login">
+       <video autoPlay loop muted className="background-video">
+                      <source src={BackgroundVideo} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
       <div className="login-container">
+        
+        
+               
         <div className="login-form">
           <h1>Login</h1>
           {errors.authError && <p className="auth-error">{errors.authError}</p>}

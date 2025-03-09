@@ -26,7 +26,19 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
 
 // Mount routers
 app.use('/api/auth', authRoutes);
